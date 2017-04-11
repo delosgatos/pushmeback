@@ -25,6 +25,8 @@ function urlB64ToUint8Array(base64String) {
 const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
 
 function subscribeUser() {
+
+
     swRegistration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: applicationServerKey
@@ -62,6 +64,10 @@ function unsubscribeUser() {
 
 
 function initialiseUI() {
+
+
+
+
     pushButton.addEventListener('click', function() {
         pushButton.disabled = true;
         if (isSubscribed) {
@@ -84,8 +90,8 @@ function initialiseUI() {
             updateBtn();
         });
 
-    pushButton.disabled = true;
-    subscribeUser();
+   /* pushButton.disabled = true;
+    subscribeUser();*/
 }
 
 function updateSubscriptionOnServer(subscription) {
@@ -120,21 +126,62 @@ function updateBtn() {
     pushButton.disabled = false;
 }
 
+function newMessage(permission) {
+    if( permission != "granted" ) return false;
+    var notify = new Notification("Thanks for letting notify you");
+};
 
+function initialiseState() {
+    /*console.log(Notification.permission);
+    if (Notification.permission !== "granted") {
+        console.log('The user has not granted the notification permission.');
+        return;
+    } else if (Notification.permission === "blocked") {
+      debugger;
+    /!* the user has previously denied push. Can't reprompt. *!/
+    } else {
+    /!* show a prompt to the user *!/
+    }*/
+
+    // Use serviceWorker.ready so this is only invoked
+    // when the service worker is available.
+    navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+        serviceWorkerRegistration.pushManager.getSubscription()
+            .then(function(subscription) {
+                if (!subscription) {
+                  //debugger;
+                    // Set appropriate app states.
+
+
+                    navigator.serviceWorker.register('sw.js')
+                        .then(function(swReg) {
+                            console.log('Service Worker is registered', swReg);
+                            swRegistration = swReg;
+                            initialiseUI();
+                        })
+                        .catch(function(error) {
+                            console.error('Service Worker Error', error);
+                        });
+
+                    return;
+                }
+            })
+            .catch(function(err) {
+                console.log('Error during getSubscription()', err);
+            });
+    });
+}
 
 
 if ('serviceWorker' in navigator && 'PushManager' in window) {
     console.log('Service Worker and Push is supported');
 
-    navigator.serviceWorker.register('sw.js')
-        .then(function(swReg) {
-            console.log('Service Worker is registered', swReg);
-            swRegistration = swReg;
-            initialiseUI();
-        })
-        .catch(function(error) {
-            console.error('Service Worker Error', error);
-        });
+
+    //Notification.requestPermission( newMessage ).then(function(){
+
+        initialiseState();
+
+    //});
 
 } else {
     console.warn('Push messaging is not supported');

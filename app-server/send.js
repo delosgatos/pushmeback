@@ -9,10 +9,10 @@ const vapidKeys = webpush.generateVAPIDKeys();
 
 
 const pushSubscription = {
-    endpoint: 'https://fcm.googleapis.com/fcm/send/dJLZyK7iUgc:APA91bGff3hieB2j7qG6n6FqNNItMksZcJBMmRHFmam_McN16TCB_VYfXqpYYetlaxjUcpr1ITn5Ce0TX7pafjMEOwXpuqzTzIA7T1JCWZC8XM5Zvpa4Zd010HWnxzjg9ukdtKAOfeLU',
+    endpoint: 'https://fcm.googleapis.com/fcm/send/c02-j0BDkZY:APA91bH7ZBOM9O4QPrOfsTO8NzBVLdcOvnyQ8vJ55SnPX722XjvgvHgjBFRCiSOhb04CLFtMH0ZQqHXS0GNWbHwyGbjnXlDbGOEvz1cJNvFr8h6clTJKzCxek6YycHXBdjtsKKjW1VVu',
     keys: {
-        p256dh:"BM-gZ58N5XGVbl6AQgJefwJerxjuSnio0s0a_E-w2Wulz75spJ3raGhTva0Qr69EwA88aUCyXvjZROI-b2K_4Hc="
-        ,auth:"A_p6BIB6VZ8UUpt-tlZTSA=="
+        p256dh:"BNQd9qPm7oGUckFChvui5_LrFCAVdIdTfbK7lKABMNj8EoPThsZNaF0NruuF1PHa9QMByeQ4BViOsiNA9Z2JgiQ="
+        ,auth:"d9eKScUFeydD9dSvZnFoEw=="
     }
 };
 

@@ -12,7 +12,86 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
   <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+  <script src="https://yastatic.net/jquery/3.1.1/jquery.min.js"></script>
   <link rel="stylesheet" href="styles/index.css">
+
+
+
+    <script src="OneSignalSDK.js"></script>
+    <script>
+        var OneSignal = window.OneSignal || [];
+        OneSignal.push(["init", {
+            appId: "fe99c120-da25-47cb-8ab9-394acacedcba",
+            autoRegister: false, /* Set to true to automatically prompt visitors */
+            subdomainName: 'pushback',
+            /*
+             subdomainName: Use the value you entered in step 1.4: http://imgur.com/a/f6hqN
+             */
+            httpPermissionRequest: {
+                enable: true,
+                useCustomModal: true,
+                modalTitle: 'Спасибо за подписку',
+                modalMessage: "Теперь вы будете получать наши уведомления. В любой момент вы можете отписаться.",
+                modalButtonText: 'Закрыть'
+            },
+            notifyButton: {
+                enable: true /* Set to false to hide */
+            },
+
+            promptOptions: {
+                /* Change bold title, limited to 30 characters */
+                siteName: 'Clickscloud',
+                /* Subtitle, limited to 90 characters */
+                actionMessage: "Здравствуйте! Мы хотели бы держать вас в курсе наших событий!",
+                /* Example notification title */
+                exampleNotificationTitle: 'Пример нотификации',
+                /* Example notification message */
+                exampleNotificationMessage: 'Это пример текста нотификации',
+                /* Text below example notification, limited to 50 characters */
+                exampleNotificationCaption: 'Вы можете отписаться в любое время',
+                /* Accept button text, limited to 15 characters */
+                acceptButtonText: "РАЗРЕШИТЬ",
+                /* Cancel button text, limited to 15 characters */
+                cancelButtonText: "НЕТ"
+            },
+        }]);
+        function subscribe() {
+            OneSignal.push(["registerForPushNotifications"]);
+            event.preventDefault();
+        }
+
+
+        /* ACCEPTING OR REJECTING NOTIFICATIONS */
+        function acceptPrompt() {
+            console.log('Calling acceptPrompt()');
+            OneSignal.showHttpPermissionRequest();
+            //OneSignal.registerForPushNotifications({httpPermissionRequest: true})
+        }
+
+        $(function(){
+            OneSignal.push(function() {
+                OneSignal.on('notificationPermissionChange', function(permissionChange) {
+                    var currentPermission = permissionChange.to;
+                    console.log('New permission state:', currentPermission);
+                    if(currentPermission == "granted"){
+
+                    }else if(currentPermission == "denied"){
+
+                    }else{
+
+                    }
+                });
+            });
+
+            $('#signal').click(function(e){
+                e.preventDefault();
+                //subscribe();
+                acceptPrompt();
+            });
+        });
+    </script>
+
+
 </head>
 
 <body>
@@ -39,6 +118,7 @@
       server keys on the site - so make sure they match.</p>
       <pre><code class="js-subscription-json"></code></pre>
     </section>
+      <a href="#" id="signal">SUBSCRIBE</a>
   </main>
 
 
@@ -68,10 +148,11 @@
 
 
 
-  <script src="scripts/main.js"></script>
+  <!--<script src="scripts/main.js"></script>-->
 
   <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
 
+<!--
 <script>
     if (window.Notification.permission === "default") {
         OneSignal._showingHttpPermissionRequest = true;
@@ -93,5 +174,12 @@
         throw new InvalidStateError(InvalidStateReason.PushPermissionAlreadyGranted);
     }
 </script>
+-->
+
+
+
+
+
+
 </body>
 </html>
