@@ -1768,6 +1768,7 @@
                         e !== !1 ? (OneSignal.notifyButton = new m["default"](OneSignal.config.notifyButton), OneSignal.notifyButton.create()) : l.debug("Notify button display predicate returned false so not showing the notify button.")
                     }) : (OneSignal.notifyButton = new m["default"](OneSignal.config.notifyButton), OneSignal.notifyButton.create()))
                 }, n.getPrefixedServiceWorkerNameForEnv = function() {
+                    debugger;
                     a["default"].isDev() ? (OneSignal.SERVICE_WORKER_PATH = r.DEV_PREFIX + "OneSignalSDKWorker.js", OneSignal.SERVICE_WORKER_UPDATER_PATH = r.DEV_PREFIX + "OneSignalSDKUpdaterWorker.js") : a["default"].isStaging() && (OneSignal.SERVICE_WORKER_PATH = r.STAGING_PREFIX + "OneSignalSDKWorker.js", OneSignal.SERVICE_WORKER_UPDATER_PATH = r.STAGING_PREFIX + "OneSignalSDKUpdaterWorker.js")
                 }, n.checkAndDoHttpPermissionRequest = function() {
                     var e = this;
@@ -2795,7 +2796,22 @@
         u = function() {
             function e() {}
             return e.applyServiceWorkerEnvPrefixes = function() {
-                o["default"].isDev() ? (OneSignal.SERVICE_WORKER_PATH = i.DEV_PREFIX + "OneSignalSDKWorker.js", OneSignal.SERVICE_WORKER_UPDATER_PATH = i.DEV_PREFIX + "OneSignalSDKUpdaterWorker.js") : o["default"].isStaging() && (OneSignal.SERVICE_WORKER_PATH = i.STAGING_PREFIX + "OneSignalSDKWorker.js", OneSignal.SERVICE_WORKER_UPDATER_PATH = i.STAGING_PREFIX + "OneSignalSDKUpdaterWorker.js")
+                debugger;
+
+
+                /*var dir = document.querySelector('script[src$="OneSignalSDK.js"]').getAttribute('src');
+                var name = dir.split('/').pop();
+                dir = dir.replace(name,"");
+                OneSignal.SERVICE_WORKER_PATH = dir + OneSignal.SERVICE_WORKER_PATH;
+                OneSignal.SERVICE_WORKER_UPDATER_PATH = dir + OneSignal.SERVICE_WORKER_UPDATER_PATH;*/
+
+                o["default"].isDev()
+                    ? (OneSignal.SERVICE_WORKER_PATH = i.DEV_PREFIX + "OneSignalSDKWorker.js", OneSignal.SERVICE_WORKER_UPDATER_PATH = i.DEV_PREFIX + "OneSignalSDKUpdaterWorker.js")
+                    : o["default"].isStaging()
+                        && (OneSignal.SERVICE_WORKER_PATH = i.STAGING_PREFIX + "OneSignalSDKWorker.js", OneSignal.SERVICE_WORKER_UPDATER_PATH = i.STAGING_PREFIX + "OneSignalSDKUpdaterWorker.js");
+
+
+
             }, e.closeNotifications = function() {
                 navigator.serviceWorker && !l["default"].isUsingSubscriptionWorkaround() && navigator.serviceWorker.getRegistration().then(function(e) {
                     if (void 0 === e || !e.active) throw new Error("There is no active service worker.");
@@ -2814,19 +2830,23 @@
                     if (OneSignal.config.path && (n = OneSignal.config.path), e && e.active) {
                         var t = e.active.scriptURL;
                         if (s.contains(t, n + OneSignal.SERVICE_WORKER_PATH)) return r.debug("(Service Worker Update)", "The main service worker is active."), a["default"].get("Ids", "WORKER1_ONE_SIGNAL_SW_VERSION").then(function(e) {
+                            debugger;
                             return e ? (r.debug("(Service Worker Update)", "Stored service worker version v" + e + "."), e != OneSignal._VERSION ? (r.debug("(Service Worker Update)", "New service worker version exists:", OneSignal._VERSION), r.info("Upgrading service worker (v" + e + " -> v" + OneSignal._VERSION + ")"), navigator.serviceWorker.register(n + OneSignal.SERVICE_WORKER_UPDATER_PATH, OneSignal.SERVICE_WORKER_PARAM)) : (r.debug("(Service Worker Update)", "You already have the latest service worker version."), null)) : (r.debug("(Service Worker Update)", "No stored service worker version. Reinstalling the service worker."), navigator.serviceWorker.register(n + OneSignal.SERVICE_WORKER_UPDATER_PATH, OneSignal.SERVICE_WORKER_PARAM))
                         });
                         if (s.contains(t, n + OneSignal.SERVICE_WORKER_UPDATER_PATH)) return r.debug("(Service Worker Update)", "The alternate service worker is active."), a["default"].get("Ids", "WORKER2_ONE_SIGNAL_SW_VERSION").then(function(e) {
+                            debugger;
                             return e ? (r.debug("(Service Worker Update)", "Stored service worker version v" + e + "."), e != OneSignal._VERSION ? (r.debug("(Service Worker Update)", "New service worker version exists:", OneSignal._VERSION), r.info("Upgrading new service worker (v" + e + " -> v" + OneSignal._VERSION + ")"), navigator.serviceWorker.register(n + OneSignal.SERVICE_WORKER_PATH, OneSignal.SERVICE_WORKER_PARAM)) : (r.debug("(Service Worker Update)", "You already have the latest service worker version."), null)) : (r.debug("(Service Worker Update)", "No stored service worker version. Reinstalling the service worker."), navigator.serviceWorker.register(n + OneSignal.SERVICE_WORKER_PATH, OneSignal.SERVICE_WORKER_PARAM))
                         })
                     }
                 })
             }, e.registerServiceWorker = function(n) {
+                debugger;
                 r.debug("Called %cregisterServiceWorker(" + JSON.stringify(n, null, 4) + ")", s.getConsoleStyle("code")), navigator.serviceWorker.register(n, OneSignal.SERVICE_WORKER_PARAM).then(l["default"].enableNotifications, e.registerError)
             }, e.registerError = function(e) {
                 r.error("ServiceWorker registration", e)
             }, e.isServiceWorkerActive = function(e) {
                 function n(e) {
+                    debugger;
                     return e.active && "activated" === e.active.state && (s.contains(e.active.scriptURL, "OneSignalSDKWorker") || s.contains(e.active.scriptURL, "OneSignalSDKUpdaterWorker"))
                 }
                 return "serviceWorker" in navigator && new Promise(function(t, i) {
@@ -5466,6 +5486,7 @@
                     })
                 }), a["default"].isIframe() && l["default"].trigger("httpInitialize")
             }, e.initPopup = function() {
+                debugger;
                 OneSignal.config = {}, OneSignal.initialized = !0, p["default"].applyServiceWorkerEnvPrefixes(), OneSignal.isPushNotificationsEnabled(function(e) {
                     e ? window.close() : navigator.serviceWorker.register(OneSignal.SERVICE_WORKER_PATH, OneSignal.SERVICE_WORKER_PARAM).then(v["default"].enableNotifications, p["default"].registerError)
                 })
@@ -6255,6 +6276,7 @@
                         })
                     })
                 }, t.onServiceWorkerInstalled = function(e) {
+                    debugger;
                     if (s.debug("Called %conServiceWorkerInstalled(" + JSON.stringify(e, null, 4) + "):", u.getConsoleStyle("code"), e), s.info("Installing service worker: %c" + self.location.pathname, u.getConsoleStyle("code"), "(version 120100)"), u.contains(self.location.pathname, "OneSignalSDKWorker")) var n = "WORKER1_ONE_SIGNAL_SW_VERSION";
                     else var n = "WORKER2_ONE_SIGNAL_SW_VERSION";
                     e.waitUntil(l["default"].put("Ids", {
