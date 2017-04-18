@@ -105,50 +105,14 @@
     fixed to support subscribing to push.</p>
     <p>
       <button disabled class="js-push-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-        Enable Push Messaging
+        Подписаться на новости
       </button>
     </p>
-    <section class="subscription-details js-subscription-details is-invisible">
-      <p>Once you've subscribed your user, you'd send their subscription to your
-      server to store in a database so that when you want to send a message
-      you can lookup the subscription and send a message to it.</p>
-      <p>To simplify things for this code lab copy the following details
-      into the <a href="https://web-push-codelab.appspot.com/">Push Companion
-      Site</a> and it'll send a push message for you, using the application
-      server keys on the site - so make sure they match.</p>
-      <pre><code class="js-subscription-json"></code></pre>
     </section>
       <a href="#" id="signal">SUBSCRIBE</a>
   </main>
 
-
-  <div class="tooltip tooltip_arrow_top-left tooltip_positioned tooltip_shown tooltip_collapse tooltip_width_huge"
-       style="position: fixed; z-index: 9999; top: -10px; left: 75px;">
-      <div class="tooltip__box">
-          <div class="tooltip__inner">
-              <div class="tooltip__content">
-                  <div class="m-push-notifications__text"><span class="text text_light_normal">Хотите получать первыми самые важные новости? Подпишитесь на уведомления!</span>
-                  </div>
-                  <div class="line line_separator"></div>
-                  <div class="m-push-notifications__buttons">
-                      <div class="m-push-notifications__button">
-                          <button class="button button_color_project button_color_project js-push-notifications__button"
-                                  data-action="subscribe" name="clb22520373"><span class="button__inner"><div
-                                  class="button__text">Подписаться</div></span></button>
-                      </div>
-                      <div class="m-push-notifications__button">
-                          <button class="button js-push-notifications__button" data-action="defer" name="clb22520377">
-                              <span class="button__inner"><div class="button__text">Не сейчас</div></span></button>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-
-
-
-  <!--<script src="scripts/main.js"></script>-->
+  <script src="scripts/main.js"></script>
 
   <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
 

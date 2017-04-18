@@ -4,102 +4,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="manifest" href="/manifest.json" />
     <title>TEST Push</title>
 
-    <link rel="stylesheet" href="app/styles/index.css">
-
-
-
-    <script src="https://yastatic.net/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://push/css/OneSignalSDK.js"></script>
-    <script>
-        window.log = 0;
-        var OneSignal = window.OneSignal || [];
-        OneSignal.push(["init", {
-            appId: "fe99c120-da25-47cb-8ab9-394acacedcba",
-            autoRegister: false, /* Set to true to automatically prompt visitors */
-            subdomainName: 'pushback',
-            /*
-             subdomainName: Use the value you entered in step 1.4: http://imgur.com/a/f6hqN
-             */
-            httpPermissionRequest: {
-                enable: true,
-                useCustomModal: true,
-                modalTitle: 'Спасибо за подписку',
-                modalMessage: "Теперь вы будете получать наши уведомления. В любой момент вы можете отписаться.",
-                modalButtonText: 'Закрыть'
-            },
-            notifyButton: {
-                enable: true /* Set to false to hide */
-            },
-
-            promptOptions: {
-                /* Change bold title, limited to 30 characters */
-                siteName: 'Clickscloud',
-                /* Subtitle, limited to 90 characters */
-                actionMessage: "Здравствуйте! Мы хотели бы держать вас в курсе наших событий!",
-                /* Example notification title */
-                exampleNotificationTitle: 'Пример нотификации',
-                /* Example notification message */
-                exampleNotificationMessage: 'Это пример текста нотификации',
-                /* Text below example notification, limited to 50 characters */
-                exampleNotificationCaption: 'Вы можете отписаться в любое время',
-                /* Accept button text, limited to 15 characters */
-                acceptButtonText: "РАЗРЕШИТЬ",
-                /* Cancel button text, limited to 15 characters */
-                cancelButtonText: "НЕТ"
-            },
-        }]);
-        function subscribe() {
-            OneSignal.push(["registerForPushNotifications"]);
-            event.preventDefault();
-        }
-
-
-        /* ACCEPTING OR REJECTING NOTIFICATIONS */
-        function acceptPrompt() {
-            console.log('Calling acceptPrompt()');
-            OneSignal.showHttpPermissionRequest();
-            //OneSignal.registerForPushNotifications({httpPermissionRequest: true})
-        }
-
-        $(function(){
-            OneSignal.push(function() {
-                OneSignal.on('notificationPermissionChange', function(permissionChange) {
-                    var currentPermission = permissionChange.to;
-                    console.log('New permission state:', currentPermission);
-                    if(currentPermission == "granted"){
-
-                    }else if(currentPermission == "denied"){
-
-                    }else{
-
-                    }
-                });
-            });
-
-            $('#signal').click(function(e){
-                e.preventDefault();
-                //subscribe();
-                acceptPrompt();
-            });
-        });
-    </script>
-
 </head>
-
 <body>
-
     <header>
         <h1>Pusher Face</h1>
     </header>
-
-
-
-    <div class="tooltip tooltip_arrow_top-left tooltip_positioned tooltip_shown tooltip_collapse tooltip_width_huge"
-         style="position: fixed; z-index: 9999; top: -10px; left: 75px;">
+    <!--<div class="js-push-notifications__tooltip tooltip tooltip_arrow_top-left tooltip_positioned tooltip_shown tooltip_collapse tooltip_width_huge"
+         style="position: fixed; z-index: 9999; top: -10px; left: 75px; display:none;">
         <div class="tooltip__box">
             <div class="tooltip__inner">
                 <div class="tooltip__content">
@@ -120,11 +34,8 @@
                 </div>
             </div>
         </div>
-    </div>
-
-
+    </div>-->
+    <script src="app/scripts/lead.js"></script>
     <!--<iframe src="https://push" width="100%" height="500" style="display:block;"></iframe>-->
-
-
 </body>
 </html>

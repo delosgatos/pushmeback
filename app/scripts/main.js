@@ -7,6 +7,9 @@ const pushButton = document.querySelector('.js-push-btn');
 let isSubscribed = false;
 let swRegistration = null;
 
+
+
+
 function urlB64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
   const base64 = (base64String + padding)
@@ -65,17 +68,25 @@ function unsubscribeUser() {
 
 function initialiseUI() {
 
+    if(pushButton) {
+        pushButton.addEventListener('click', function () {
+            pushButton.disabled = true;
+            if (isSubscribed) {
+                unsubscribeUser();
+            } else {
+                subscribeUser();
+            }
+        });
+    }
 
-
-
-    pushButton.addEventListener('click', function() {
-        pushButton.disabled = true;
+    if (window.enableAutoSubscribe) {
+        if(pushButton) pushButton.disabled = true;
         if (isSubscribed) {
             unsubscribeUser();
         } else {
             subscribeUser();
         }
-    });
+    }
 
     // Set the initial subscription value
     swRegistration.pushManager.getSubscription()
@@ -111,19 +122,21 @@ function updateSubscriptionOnServer(subscription) {
 
 function updateBtn() {
     if (Notification.permission === 'denied') {
-        pushButton.textContent = 'Push Messaging Blocked.';
-        pushButton.disabled = true;
+        if(pushButton) {
+            pushButton.textContent = 'Push Messaging Blocked.';
+            pushButton.disabled = true;
+        }
         updateSubscriptionOnServer(null);
         return;
     }
-
-    if (isSubscribed) {
-        pushButton.textContent = 'Disable Push Messaging';
-    } else {
-        pushButton.textContent = 'Enable Push Messaging';
+    if(pushButton) {
+        if (isSubscribed) {
+            pushButton.textContent = 'Disable Push Messaging';
+        } else {
+            pushButton.textContent = 'Enable Push Messaging';
+        }
+        pushButton.disabled = false;
     }
-
-    pushButton.disabled = false;
 }
 
 function newMessage(permission) {
@@ -143,8 +156,17 @@ function initialiseState() {
     /!* show a prompt to the user *!/
     }*/
 
+    navigator.serviceWorker.register('sw.js')
+        .then(function(swReg) {
+            console.log('Service Worker is registered', swReg);
+            swRegistration = swReg;
+            initialiseUI();
+        })
+        .catch(function(error) {
+            console.error('Service Worker Error', error);
+        });
+
     // Use serviceWorker.ready so this is only invoked
-    // when the service worker is available.
     navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
         serviceWorkerRegistration.pushManager.getSubscription()
             .then(function(subscription) {
@@ -153,15 +175,9 @@ function initialiseState() {
                     // Set appropriate app states.
 
 
-                    navigator.serviceWorker.register('sw.js')
-                        .then(function(swReg) {
-                            console.log('Service Worker is registered', swReg);
-                            swRegistration = swReg;
-                            initialiseUI();
-                        })
-                        .catch(function(error) {
-                            console.error('Service Worker Error', error);
-                        });
+
+
+
 
                     return;
                 }
@@ -185,5 +201,7 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
 
 } else {
     console.warn('Push messaging is not supported');
-    pushButton.textContent = 'Push Not Supported';
+    if(pushButton) {
+        pushButton.textContent = 'Push Not Supported';
+    }
 }
