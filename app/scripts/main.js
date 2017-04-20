@@ -1,13 +1,21 @@
 'use strict';
 
+var database = firebase.database();
+//var newPushKey = firebase.database().ref().child('push').push().key;
+function writeSubscription(subscription){
+    subscription = JSON.parse(JSON.stringify(subscription));
+    if(!subscription || !subscription.keys){
+        return false;
+    }
+    firebase.database().ref('push/' + subscription.keys.p256dh).set(subscription);
+}
+
 const applicationServerPublicKey = 'BLdDVFnwfXx8TIO83AZwcSzlymY5qHO4CyjqrhUbL_zzROPBxFysTds2rRZcf4v7lebEkR7WvWzyp9PY_p6m1jo';
 
 const pushButton = document.querySelector('.js-push-btn');
 
 let isSubscribed = false;
 let swRegistration = null;
-
-
 
 
 function urlB64ToUint8Array(base64String) {
@@ -106,17 +114,27 @@ function initialiseUI() {
 }
 
 function updateSubscriptionOnServer(subscription) {
+
     // TODO: Send subscription to application server
+
+    writeSubscription(subscription);
+
 
     const subscriptionJson = document.querySelector('.js-subscription-json');
     const subscriptionDetails =
         document.querySelector('.js-subscription-details');
 
     if (subscription) {
-        subscriptionJson.textContent = JSON.stringify(subscription);
-        subscriptionDetails.classList.remove('is-invisible');
+        if(subscriptionJson) {
+            subscriptionJson.textContent = JSON.stringify(subscription);
+        }
+        if(subscriptionDetails) {
+            subscriptionDetails.classList.remove('is-invisible');
+        }
     } else {
-        subscriptionDetails.classList.add('is-invisible');
+        if(subscriptionDetails) {
+            subscriptionDetails.classList.add('is-invisible');
+        }
     }
 }
 

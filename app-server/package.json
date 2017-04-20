@@ -1,0 +1,38 @@
+{
+  "name": "pushmeback-server",
+  "version": "0.0.1",
+  "description": "Web push notifications from Clickscloud",
+  "main": "send.js",
+  "dependencies": {
+    "firebase": "^3.8.0"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "github.com/delosgatos/pushmeback.git"
+  },
+  "keywords": [
+    "push notification",
+    "push notifications",
+    "web push",
+    "web push notification",
+    "web push notifications",
+    "roost",
+    "goroost",
+    "parse",
+    "urbanairship",
+    "apns",
+    "gcm",
+    "mobile notifications",
+    "adm",
+    "mpns",
+    "wns"
+  ],
+  "author": "delosgatos@gmail.com",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/delosgatos/pushmeback/issues"
+  },
+  "homepage": "https://github.com/delosgatos/pushmeback/",
+  "devDependencies": {}
+}
