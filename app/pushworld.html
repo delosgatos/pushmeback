@@ -1007,7 +1007,7 @@
             }
         }
     </style>
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/_libs/manifest.json">
     <meta itemprop="name" content="readsy">
     <meta itemprop="image" content="https://readsyru.push.world/logo.png">
     <meta property="og:title" content="readsy">
@@ -1166,7 +1166,9 @@
                                     iframe: t
                                 },
                                 time: !0
-                            }), r.postMessage("pw-init", "" + e.api.landing, [o.port2]), o.port1.onmessage = function(o) {
+                            })
+                            , r.postMessage("pw-init", "" + e.api.landing, [o.port2]), o.port1.onmessage = function(o) {
+                                debugger;
                                 var r = o.data;
                                 e.utilites.debugConsole({
                                     name: "Debug (class Deviceid) -> onmessage",
@@ -1375,7 +1377,7 @@
                                     name: "Debug (class Subscription -> isManifest)",
                                     params: "File manifest.json found: " + s,
                                     time: !0
-                                }), s || t.utilites.infoConsole('File manifest.json is not connected to DOM. Paste into tag head <link rel="manifest" href="/manifest.json">'), s
+                                }), s || t.utilites.infoConsole('File manifest.json is not connected to DOM. Paste into tag head <link rel="manifest" href="/_libs/manifest.json">'), s
                             }
                         }, {
                             key: "bodySubscription",
@@ -1518,6 +1520,7 @@
                         }, {
                             key: "nativeWidgetStat",
                             value: function(e, i) {
+                                debugger;
                                 if (e && "native" === e.source) {
                                     var n = "granted" === i ? "widget_allow" : "denied" === i ? "widget_deny" : void 0;
                                     n && t.utilites.setStataData({
@@ -1628,6 +1631,7 @@
                         value: function(t, i) {
                             var n = this,
                                 o = function(o) {
+                                    debugger;
                                     var r = o.data,
                                         s = o.origin || o.originalEvent.origin;
                                     if (e.utilites.debugConsole({
@@ -2727,22 +2731,48 @@
                                 value: function(e) {
                                     debugger;
                                     var i = this;
-                                    "Notification" in t ? "granted" === Notification.permission ? e.ports[0].postMessage("already_granted") : "denied" === Notification.permission && "default" !== Notification.permission || (e.ports[0].postMessage("ready"), Notification.requestPermission().then(function(t) {
-                                            switch (t) {
-                                                case "denied":
-                                                    i.utilites.setCookie("" + i.namespace.status + i.platform_code, "deny"), e.ports[0].postMessage("denied");
-                                                    break;
-                                                case "default":
-                                                    e.ports[0].postMessage("default");
-                                                    break;
-                                                case "granted":
-                                                    e.ports[0].postMessage("granted")
-                                            }
-                                        })) : e.ports[0].postMessage("not_supported")
+                                    if("Notification" in t){
+                                        if("granted" === Notification.permission) {
+                                            e.ports[0].postMessage("already_granted")
+                                        }else {
+                                            "denied" === Notification.permission
+                                                && "default" !== Notification.permission
+                                                || (e.ports[0].postMessage("ready"),
+                                                    Notification.requestPermission().then(function (t) {
+                                                        switch (t) {
+                                                            case "denied":
+                                                                i.utilites.setCookie("" + i.namespace.status + i.platform_code, "deny"), e.ports[0].postMessage("denied");
+                                                                break;
+                                                            case "default":
+                                                                e.ports[0].postMessage("default");
+                                                                break;
+                                                            case "granted":
+                                                                e.ports[0].postMessage("granted");
+
+
+                                                                var w = window.open("about:blank", "Подписка", "width=440,height=440");
+
+                                                                w.document.write("<script>window.location.assign('https://push/subscribe.html')<\/script>");
+
+                                                                w.location.assign('https://push/subscribe.html');
+                                                                window.onmessage = function(e){
+                                                                    setTimeout(function(){
+                                                                        w.close();
+                                                                    }, 1200);
+                                                                };
+                                                                //w.location.reload();
+                                                        }
+                                                    })
+                                                );
+                                        }
+                                    }else{
+                                        e.ports[0].postMessage("not_supported");
+                                    }
                                 }
                             }, {
                                 key: "getDebug",
                                 value: function() {
+                                    return true;
                                     if (this.isLocal()) {
                                         var e = "false",
                                             i = t.localStorage.getItem("pw-debug"),
@@ -2863,19 +2893,16 @@
                             }, {
                                 key: "serviceWorkerSupported",
                                 value: function() {
-                                    debugger;
                                     return "serviceWorker" in navigator
                                 }
                             }, {
                                 key: "showNotificationSupported",
                                 value: function() {
-                                    debugger;
                                     return "ServiceWorkerRegistration" in t && "showNotification" in ServiceWorkerRegistration.prototype
                                 }
                             }, {
                                 key: "notificationPermission",
                                 value: function() {
-                                    debugger;
                                     return Notification.permission
                                 }
                             }, {
